@@ -26,3 +26,4 @@ nestjs-fundamentals/pr1/node_modules/resolve/test/resolver/symlinked/_/symlink_t
 nestjs-fundamentals/pr1/node_modules/terser-webpack-plugin/node_modules/
 nestjs-fundamentals/pr1/node_modules/ts-jest/node_modules/
 nestjs-fundamentals/pr1/node_modules/ts-loader/node_modules/
+*node_modules*
