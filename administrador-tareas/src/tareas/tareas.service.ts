@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Tarea, StatusTarea } from './tareas.model';
 import { v4 as uuid } from 'uuid';
 import { CrearTareaDto } from './dto/crear-tarea.dto';
+import { GetTareasFiltroDto } from './dto/get-tareas-filtro.dto';
 
 @Injectable()
 export class TareasService {
@@ -9,6 +10,29 @@ export class TareasService {
 
   getAllTareas(): Tarea[] {
     return this.tareas;
+  }
+
+  getTareasConFiltro(filtroDto: GetTareasFiltroDto): Tarea[] {
+    //Esta es una descomposición de objetos como rn JavaScript
+    const { status, search } = filtroDto;
+
+    //Obtenemos las tareas para filtrarlas
+    let txs = this.getAllTareas();
+
+    if (status) {
+      console.log(status);
+      txs = txs.filter((tx) => tx.status === status);
+    }
+
+    if (search) {
+      txs = txs.filter((tx) => {
+        if (tx.titulo.includes(search) || tx.descripcion.includes(search)) {
+          return true;
+        }
+        return false;
+      });
+    }
+    return txs;
   }
 
   getTareaByID(id: string): Tarea {

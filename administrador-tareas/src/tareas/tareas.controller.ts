@@ -6,18 +6,26 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { TareasService } from './tareas.service';
 import { StatusTarea, Tarea } from './tareas.model';
 import { CrearTareaDto } from './dto/crear-tarea.dto';
+import { GetTareasFiltroDto } from './dto/get-tareas-filtro.dto';
 
 @Controller('tareas')
 export class TareasController {
   constructor(private tareasService: TareasService) {}
 
   @Get()
-  getAllTareas(): Tarea[] {
-    return this.tareasService.getAllTareas();
+  getTareas(@Query() filtroDto: GetTareasFiltroDto): Tarea[] {
+    //Si tenemos algunos filtros definidos, se llama a la función tareasService getTareasConFiltro
+    //de otr manera, se obtienen todas las tareas
+    if (Object.keys(filtroDto).length) {
+      return this.tareasService.getTareasConFiltro(filtroDto);
+    } else {
+      return this.tareasService.getAllTareas();
+    }
   }
 
   /* Este handler es casi identico al que obtiene todas las tareas la diferencia es el parametro, es decir que la ruta hace un match como el
