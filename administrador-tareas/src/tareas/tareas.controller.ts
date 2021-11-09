@@ -12,6 +12,7 @@ import { TareasService } from './tareas.service';
 import { StatusTarea, Tarea } from './tareas.model';
 import { CrearTareaDto } from './dto/crear-tarea.dto';
 import { GetTareasFiltroDto } from './dto/get-tareas-filtro.dto';
+import { UpdateTareaStatusDto } from './dto/update-tarea-status.dto';
 
 @Controller('tareas')
 export class TareasController {
@@ -66,8 +67,11 @@ export class TareasController {
   @Patch('/:id/status')
   updateStatusTarea(
     @Param('id') id: string,
-    @Body('status') status: StatusTarea,
+    /*Este cambio se hizo para poder usar la validación del status */
+    //@Body('status') status: StatusTarea,
+    @Body() updateTareaStatusDto: UpdateTareaStatusDto,
   ): Tarea {
+    const { status } = updateTareaStatusDto;
     return this.tareasService.updateStatusTarea(id, status);
   }
 }
