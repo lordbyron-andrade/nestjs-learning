@@ -1,5 +1,5 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { StatusTarea } from '../tareas.model';
+import { StatusTarea } from '../tareas.status.enum';
 
 export class GetTareasFiltroDto {
   /*El signo de interrogación significa que el parametro es opcional puede o no ser incluiído 

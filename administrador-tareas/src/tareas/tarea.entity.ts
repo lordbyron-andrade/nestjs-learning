@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { StatusTarea } from './tareas.model';
+import { StatusTarea } from './tareas.status.enum';
 
 @Entity()
 export class Tarea {
