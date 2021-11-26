@@ -19,6 +19,11 @@ import { Tarea } from './tarea.entity';
 export class TareasController {
   constructor(private tareasService: TareasService) {}
 
+  @Get()
+  getTareas(@Query() filtroDto: GetTareasFiltroDto): Promise<Tarea[]> {
+    return this.tareasService.getTareas(filtroDto);
+  }
+
   // @Get()
   // getTareas(@Query() filtroDto: GetTareasFiltroDto): Tarea[] {
   //   //Si tenemos algunos filtros definidos, se llama a la función tareasService getTareasConFiltro
@@ -77,6 +82,10 @@ export class TareasController {
   //   eliminarTarea(@Param('id') id: string): void {
   //     return this.tareasService.borrarTarea(id);
   //   }
+  @Delete('/:id')
+  eliminarTarea(@Param('id') id: string): Promise<void> {
+    return this.tareasService.borrarTarea(id);
+  }
 
   //   @Patch('/:id/status')
   //   updateStatusTarea(
@@ -88,4 +97,12 @@ export class TareasController {
   //     const { status } = updateTareaStatusDto;
   //     return this.tareasService.updateStatusTarea(id, status);
   //   }
+  @Patch('/:id/status')
+  updateStatusTarea(
+    @Param('id') id: string,
+    @Body() updateTareaStatusDto: UpdateTareaStatusDto,
+  ): Promise<Tarea> {
+    const { status } = updateTareaStatusDto;
+    return this.tareasService.updateStatusTarea(id, status);
+  }
 }

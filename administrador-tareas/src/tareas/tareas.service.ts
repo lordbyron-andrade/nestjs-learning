@@ -15,6 +15,10 @@ export class TareasService {
     @InjectRepository(TareasRepository)
     private tareasRepository: TareasRepository,
   ) {}
+
+  getTareas(filtroDto: GetTareasFiltroDto): Promise<Tarea[]> {
+    return this.tareasRepository.getTareas(filtroDto);
+  }
   //private tareas: Tarea[] = [];
   // getAllTareas(): Tarea[] {
   //   return this.tareas;
@@ -76,6 +80,15 @@ export class TareasService {
     return this.tareasRepository.crearTarea(crearTareaDto);
   }
 
+  async borrarTarea(id: string): Promise<void> {
+    const resultadox = await this.tareasRepository.delete(id);
+    if (resultadox.affected === 0) {
+      throw new NotFoundException(
+        `La tarea con el ID "${id}" no se encontro en la base de datos`,
+      );
+    }
+  }
+
   //borrarTarea(id: string): void {
   /* Este método va servir para eliminar un elemento que coincida con el id enviado, estamos tilizando un método de las colecciones denominado 
        filter por medio del cual generamos un arrreglo de resultado que no contiene el elemento a eliminar*/
@@ -92,4 +105,10 @@ export class TareasService {
   //   tx.status = status;
   //   return tx;
   // }
+  async updateStatusTarea(id: string, status: StatusTarea): Promise<Tarea> {
+    const tx = await this.getTareaByID(id);
+    tx.status = status;
+    await this.tareasRepository.save(tx);
+    return tx;
+  }
 }
